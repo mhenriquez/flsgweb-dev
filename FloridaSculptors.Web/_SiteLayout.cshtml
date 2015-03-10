@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		<!--
+
+		Copyright (c) 2015
+
+		-->
+		<meta name="Author" content="FSG" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>FSG - @Page.Title</title>
+		<meta name="description" content="@Page.Description" />
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-title" content="FSG" />
+		<link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+
+		<!-- Styles: BEGIN -->
+		<link type="text/css" rel="stylesheet" href="~/styles/site.css" />
+		@RenderSection("Styles", required: false)
+		<!-- Styles: FINIS -->
+
+		<!--Analytics-->
+	</head>
+	<body>
+		<a id="top"></a>
+
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<!--/ Content: BEGIN /-->
+		<section class="page" id="page">
+			<div class="page-inner">
+
+				<div class="cover">
+					<div class="cover-img"></div><!--/.cover-img (background image) /-->
+					<div class="cover-header">
+						
+						<div class="topBar">
+							<div class="cbaBar">
+								<a id="bttnHome" class="bttnHome" href="~/"><i class="fa fa-home"></i></a>&nbsp;&nbsp;
+								<a id="rightBurger" class="slideLeft" href=""><i class="fa fa-bars"></i></a>
+							</div><!--/.cbaBar /-->
+						</div><!--/.topBar /-->
+						
+						@RenderSection("featured", required: false)
+						
+						<br><br>
+						
+						@*@{
+							string query = "accounting";
+							string xmlURL = "http://google.cc.ucf.edu/search?output=xml&client=UCF_Main&site=UCF_Main&sitesearch=web.bus.ucf.edu&spell=1&q=" + query;
+							googleSearchResults gsr = new googleSearchResults();
+							string i = gsr.ParseXml(xmlURL);
+							
+							@Html.Label(i, new {id = "Label1"});
+						}*@
+
+						@*<form  class="site-search" action="" name="input" method="get" id="site-search">
+						<input type="search" placeholder="SEARCH" name="q" size="33" id="dl-search-field" />
+						<input type="hidden" name="output" value="xml" />
+						<input type="hidden" name="client" value="UCF_Main" />
+						<input type="hidden" name="site" value="UCF_Main" />
+						<input type="hidden" name="sitesearch" value="web.bus.ucf.edu" />
+						<input type="hidden" name="spell" value="1" />
+						</form>*@
+						
+						@*@Html.TextBox("searchresults", null, new {onkeyup = "GetSearchResults(this.value);"})*@
+						
+						@*<script>
+							function GetSearchResults(value)
+							{
+								$.ajax(
+								{
+									type: "GET",
+									url: "",
+									data: "",
+									contentType: "",
+									success: function (msg)
+									{
+										$("#senderContent").html(msg.toString);
+									},
+									error: function ()
+									{
+										alert("not connected!");
+									}
+								});
+							}
+						</script>*@
+
+					</div><!--/.cover-header /-->
+					<div class="cover-body">
+						<div class="cover-body-inner">
+							<h1>Florida <br />Sculptors</h1>
+							<div class="social">
+								<a class="icon" href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+								<a class="icon" href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+								<a class="icon" href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+								<a class="icon" href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+								<a class="icon" href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
+							</div>
+						</div>
+					</div><!--/.cover-body /-->
+				</div><!--/.cover /-->
+
+				<div class="main" id="main">
+					<div class="content-wrapper">
+
+						@RenderBody()
+
+					</div><!--/.content-wrapper /-->
+					<footer class="footer">
+						<div class="footer-inner container-fluid">
+							<div class="row">
+								<div class="col-xs-12 col-sm-5 col-md-5">
+									<div>
+										<h5 class="text-uppercase">Address</h5>
+										<address>
+											Address 1<br>
+											Address 2<br>
+											P.O. Box 123456<br>
+											Orlando, FL 123456<br>
+										</address>
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-4 col-md-4">
+									<h5>Contact</h5>
+									<ul>
+										<li><small>General Information</small><br><a href="tel:4078232185">(407) 555-5555</a></li>
+									</ul>
+								</div>
+								<div class="col-xs-6 col-sm-3 col-md-3">
+									<h5>Quick Links</h5>
+									<ul>
+										<li><a href="#" target="_blank">Link</a></li>
+									</ul>
+								</div>
+								<div class="col-xs-12">
+								</div>
+								<div class="col-xs-12">
+									<span class="copyright">&copy; @DateTime.Now.Year</span>
+								</div>
+							</div>
+						</div>
+					</footer><!--/.footer /-->
+				</div><!--/.main /-->
+
+				<div class="page-overlay"></div>
+
+			</div>
+		</section><!--/.page /-->
+
+		<section id="sidebarLeft" class="sidebarLeft" style="display: none;">
+			<div class="sidebarLeft-inner">
+				
+				<!--Tabs-->
+				<a class="shutLeft" href="">&#10006;</a><!--Close Button-->
+				<!--Tabs-->
+				
+				<div class="scrollableArea container">
+					<!-- show content here -->
+					<div class="row">
+						<div class="col-xs-12 col-sm-6">
+							column 1
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							column 2
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section><!--/#sidebarLeft -->
+
+		<section id="sidebarRight" class="sidebarRight">
+			<div class="sidebarRight-inner" id="tabs">
+
+				<!--Tabs-->
+				<a class="shutRight" id="shutRight" href="">&#10006;</a><!--Close Button-->
+				<ul id="menutabs">
+					<li><a class="sidebarMenuTab active" href="#menu"><i class="fa fa-bars"></i></a></li>
+					<li><a class="sidebarMenuTab" href="#search"><i class="fa fa-search"></i></a></li>
+					<li><a class="sidebarMenuTab" href="#directory"><i class="fa fa-users"></i></a></li>
+				</ul>
+				<!--Tabs-->
+
+				<div class="scrollableArea container-fluid" id="menu">
+					<!-- show content here -->
+					<hr>
+					<h4>Sitemap</h4>
+
+					@*<h3>Section</h3>
+					<div class="row">
+						<div class="col-xs-12">
+							<h4>Category</h4>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							page 1
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							page 2
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<h4>Category</h4>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							page 1
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							page 2
+						</div>
+					</div>*@
+
+				</div>
+				<div class="scrollableArea container-fluid" id="search">
+					<!-- show content here -->
+					<hr>
+					<h4>Search</h4>
+				</div>
+				<div class="scrollableArea container-fluid" id="directory">
+					<!-- show content here -->
+					<hr>
+					<h4>Directory</h4>
+				</div>
+
+			</div>
+		</section><!--/#sidebarRight -->
+
+		<a href="" class="fa fa-arrow-up back-to-top"></a>
+		<div class="loading-bar"></div>
+		<!-- Content: FINIS -->
+
+		<!--BEGIN: Scripts-->
+		<script data-main="/scripts/main" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js"></script>
+		@RenderSection("Scripts", required: false)
+		<!--Scripts: FINIS-->
+	</body>
+</html>

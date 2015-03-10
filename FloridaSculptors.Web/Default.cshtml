@@ -1,0 +1,471 @@
+﻿@{
+	Layout = "~/_SiteLayout.cshtml";
+	Page.Title = "Home";
+
+
+	//-------------------------------------------------------------------------------------------
+	//Cache Page
+	//Response.Cache.SetExpires(DateTime.Now.AddSeconds(60));
+	//Response.Cache.SetCacheability(HttpCacheability.Public);
+	//Response.Cache.SetValidUntilExpires(true);
+	//careerpros.wordpress.com
+	//-------------------------------------------------------------------------------------------
+
+	// WordPress Feed (latest 10 posts) //-------------------------------------------------------
+	System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();
+	System.Xml.XmlElement xmlElement = null;
+	System.Xml.XmlNodeList xmlNodeList = null;
+
+	try
+	{
+		string feed = "http://floridasculptors.wordpress.com/category/uncategorized/feed/";
+		xmlDoc.Load(feed); //-- Load Feed onto XML Doc
+		xmlElement = xmlDoc.DocumentElement; //-- Get Root Element; "rss"
+		xmlNodeList = xmlElement.SelectNodes("//channel/item"); //-- Blog Post List
+	}
+	catch (Exception)
+	{
+
+		//throw;
+	}
+
+	string xmlFeedTitle = "";
+	if (xmlElement != null){
+		xmlFeedTitle = xmlElement.SelectSingleNode("//title").InnerText; //-- Blog Title
+	}
+	//-------------------------------------------------------------------------------------------
+
+	// Google Calendar (upcoming events) //------------------------------------------------------
+	System.Xml.XmlDocument gcalDoc = new System.Xml.XmlDocument();
+	System.Xml.XmlElement gcalElement = null;
+	System.Xml.XmlNodeList gcalNodeList = null;
+
+	try
+	{
+		string feed = "https://www.google.com/calendar/feeds/floridasculptors%40gmail.com/private-fde90feeac973c7ec1cf8bffb8de2e95/basic?orderby=starttime&sortorder=ascending&futureevents=true&max-results=10";
+		gcalDoc.Load(feed);
+		gcalElement = gcalDoc.DocumentElement; //-- Get Root Element; "feed"
+		gcalNodeList = gcalElement.ChildNodes;
+	}
+	catch (Exception)
+	{
+		
+		//throw;
+	}
+	//-------------------------------------------------------------------------------------------
+}
+
+@section Styles {
+	<style>
+		.frame > ul li {
+			background: #8aaba4; /* Old browsers */
+			background: -moz-linear-gradient(top, #8aaba4 0%, #8aada7 3%, #8db0aa 6%, #90b5ae 7%, #8eb6ae 9%, #91b9b1 11%, #accabe 16%, #b2ccbf 16%, #b4cec1 17%, #b9cfc3 17%, #c1d7ca 20%, #c4d8cc 22%, #c4d8cc 25%, #cbddd1 34%, #c9ddd1 46%, #dbe2da 61%, #e8e8e6 97%, #e8eae7 98%, #fefdf9 99%, #e5e7e4 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8aaba4), color-stop(3%,#8aada7), color-stop(6%,#8db0aa), color-stop(7%,#90b5ae), color-stop(9%,#8eb6ae), color-stop(11%,#91b9b1), color-stop(16%,#accabe), color-stop(16%,#b2ccbf), color-stop(17%,#b4cec1), color-stop(17%,#b9cfc3), color-stop(20%,#c1d7ca), color-stop(22%,#c4d8cc), color-stop(25%,#c4d8cc), color-stop(34%,#cbddd1), color-stop(46%,#c9ddd1), color-stop(61%,#dbe2da), color-stop(97%,#e8e8e6), color-stop(98%,#e8eae7), color-stop(99%,#fefdf9), color-stop(100%,#e5e7e4)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #8aaba4 0%,#8aada7 3%,#8db0aa 6%,#90b5ae 7%,#8eb6ae 9%,#91b9b1 11%,#accabe 16%,#b2ccbf 16%,#b4cec1 17%,#b9cfc3 17%,#c1d7ca 20%,#c4d8cc 22%,#c4d8cc 25%,#cbddd1 34%,#c9ddd1 46%,#dbe2da 61%,#e8e8e6 97%,#e8eae7 98%,#fefdf9 99%,#e5e7e4 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(top, #8aaba4 0%,#8aada7 3%,#8db0aa 6%,#90b5ae 7%,#8eb6ae 9%,#91b9b1 11%,#accabe 16%,#b2ccbf 16%,#b4cec1 17%,#b9cfc3 17%,#c1d7ca 20%,#c4d8cc 22%,#c4d8cc 25%,#cbddd1 34%,#c9ddd1 46%,#dbe2da 61%,#e8e8e6 97%,#e8eae7 98%,#fefdf9 99%,#e5e7e4 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(top, #8aaba4 0%,#8aada7 3%,#8db0aa 6%,#90b5ae 7%,#8eb6ae 9%,#91b9b1 11%,#accabe 16%,#b2ccbf 16%,#b4cec1 17%,#b9cfc3 17%,#c1d7ca 20%,#c4d8cc 22%,#c4d8cc 25%,#cbddd1 34%,#c9ddd1 46%,#dbe2da 61%,#e8e8e6 97%,#e8eae7 98%,#fefdf9 99%,#e5e7e4 100%); /* IE10+ */
+			background: linear-gradient(to bottom, #8aaba4 0%,#8aada7 3%,#8db0aa 6%,#90b5ae 7%,#8eb6ae 9%,#91b9b1 11%,#accabe 16%,#b2ccbf 16%,#b4cec1 17%,#b9cfc3 17%,#c1d7ca 20%,#c4d8cc 22%,#c4d8cc 25%,#cbddd1 34%,#c9ddd1 46%,#dbe2da 61%,#e8e8e6 97%,#e8eae7 98%,#fefdf9 99%,#e5e7e4 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8aaba4', endColorstr='#e5e7e4',GradientType=0 ); /* IE6-9 */
+		}
+		.eventstart-date {
+			background-color: #fff; /* Old browsers */
+			background-color: rgba(255,255,255,0.88);
+			border: 1px solid #333;
+			border-radius: 50px;
+			padding: 9px 11px 7px 11px;
+			/*box-shadow: 3px 3px 6px #555;*/
+			
+			text-align: center;
+			font-weight: 400;
+			font-size: 0.88em;
+			color: #333;
+			
+			position: absolute;
+			top: 7px;
+			left: 5px;
+		}
+		.eventend-date {
+			display: none;
+			background-color: #fff;
+			background-color: rgba(255,255,255,0.88);
+			border: 1px solid #333;
+			border-radius: 50px;
+			padding: 9px 11px 7px 11px;
+			
+			text-align: center;
+			font-weight: 400;
+			font-size: 0.88em;
+			color: #333;
+			
+			position: absolute;
+			top: 7px;
+			left: 55px;
+		}
+	</style>
+}
+
+@section featured {
+	<!-- Authentication: BEGIN -->
+	<section id="login" style="display: none; visibility: hidden;">
+		<p>Authenticated: @WebSecurity.IsAuthenticated</p>
+		@if (WebSecurity.IsAuthenticated) {
+			<text>
+				Hello, <a class="email" href="~/Account/Manage" title="Manage">@WebSecurity.CurrentUserName</a>!
+				<form id="logoutForm" action="~/Account/Logout" method="post">
+					@AntiForgery.GetHtml()
+					<a href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+				</form>
+			</text>
+		} else {
+			<ul>
+				<li><a href="~/Account/Register">Register</a></li>
+				<li><a href="~/Account/Login">Log in</a></li>
+			</ul>
+		}
+	</section>
+	<!-- Authentication: FINIS -->
+
+	<!-- Site Feedback: BEGIN -->
+	<span id="msg" style="padding:10px; color:#fff"></span>
+	<!-- Site Feedback: FINIS -->
+}
+
+@section Scripts {
+	<script>
+		require(['main'], function () {
+			// Once the 'main' script is loaded, load up scripts specific to this page
+			require(['pages/home'], function (Page) {
+				Page.onLoad();
+				Page.onResize();
+			});
+		});
+	</script>
+}
+
+<header class="section"></header>
+
+<section class="section">
+	<div class="pagespan">
+		<!--// ROW -->
+		<div class="wrap">
+			<ul class="pages"></ul>
+			<div class="frame" id="oneframe">
+				<ul class="clearfix">
+					<li style="width:800px">
+						<div class="row">
+							<div class="col-md-12">
+								content panel 1
+								@xmlElement.Name.ToString()
+							</div>
+						</div>
+					</li>
+					<li style="width:800px">
+						<div class="row">
+							<div class="col-md-12">
+								content panel 2
+							</div>
+						</div>
+					</li>
+					<li style="width:800px">
+						<div class="row">
+							<div class="col-md-12">
+								content panel 3
+							</div>
+						</div>
+					</li>
+					<li style="width:800px">
+						<div class="row">
+							<div class="col-md-12">
+								content panel 4
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="scrollbar" style="display:none;">
+					<div class="handle">
+						<div class="mousearea"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--// ROW - SPOTLIGHTS/FEATURED ANNOUNCEMENTS -->
+		<section class="wrap">
+			<div class="wrap-header">
+				<span style="font-size: 1.3em; font-weight: 700;">Spotlights</span>
+				<span style="font-size: 0.75em; color: #808080;"><small>SCROLL TO VIEW ALL >></small></span>
+			</div><!--/.wrap-header -->
+			<div class="frame" id="row1" data-intro="row1" data-position="left">
+				<ul class="clearfix" id="spotlights">
+
+
+				</ul>
+			</div><!--/.frame -->
+			@*<div class="scrollbar">
+		<div class="handle">
+			<div class="mousearea"><span></span></div>
+		</div>
+	</div><!--/scrollbar -->*@
+			<div class="controls center use-fastclick">
+				<button class="btn prevPage"><i class="fa fa-chevron-left"></i><i class="icon-chevron-left"></i></button><!--/back button-->
+				<button class="btn nextPage"><i class="fa fa-chevron-right"></i></button><!--/forward button-->
+			</div><!--/.controls -->
+		</section>
+
+		<!--// ROW - EVENTS -->
+		<section class="wrap">
+			<div class="wrap-header">
+				<span style="font-size: 1.3em; font-weight: 700;">Events</span>
+				<span style="font-size: 0.75em; color: #808080;"><small>SCROLL TO VIEW ALL >></small></span>
+			</div><!--/.wrap-header -->
+			<div class="frame" id="row2" data-intro="row2" data-position="left">
+				<ul class="clearfix" id="events">
+
+					@*{
+						if (gcalElement != null)
+						{
+							foreach (System.Xml.XmlNode node in gcalNodeList)
+							{
+								if (node.Name == "entry")
+								{
+									GoogleCalendarEvent ge = new GoogleCalendarEvent(node.ChildNodes.Item(0).InnerXml);
+
+									<li>
+										<div title="@ge.Title">
+											<a href="#@ge.Id" class="target_blank">
+												<img alt="" data-echo="#">
+												<p>@ge.Title</p>
+											</a>
+											<div id="@ge.Id" style="display:none">
+												<div class="container-fluid">
+													<div class="row">
+														<div class="col-sm-12">
+															<h1>@ge.Title</h1>
+															<hr />
+														</div>
+													</div><!--/.row-->
+													<div class="row">
+														<div class="col-sm-12">
+															@Html.Encode(ge.Content)
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								}
+							}
+						}
+					}*@
+
+
+					@{
+						if (gcalElement != null)
+						{
+							foreach (System.Xml.XmlNode itemNode in gcalNodeList)
+							{
+								if (itemNode.Name == "entry")
+								{
+									Guid Id = Guid.NewGuid();
+
+									// 'entry' Nodes
+									string Title = "";
+									string pubDate = "";
+									string upDated = "";
+									string Content = "";
+									//string Hyperlink = "";
+									//string AtomXml = "";
+
+									try
+									{
+										Title = itemNode["title"].InnerText;
+										pubDate = itemNode["published"].InnerText;
+										upDated = itemNode["updated"].InnerText;
+										Content = itemNode["content"].InnerText;
+										//Hyperlink = itemNode["link"].Attributes["href"].Value);
+										//AtomXml = itemNode["link"].Attributes["href"].Value);
+									}
+									catch (Exception)
+									{
+
+										//throw;
+									}
+									
+									<li>
+										<div title="">
+											<a href="#@Id" class="target_blank">
+												<img alt="" data-echo="#">
+												<p>@Title</p>
+											</a>
+											<div id="@Id" style="display:none">
+												<div class="container-fluid">
+													<div class="row">
+														<div class="col-md-12">
+															<h1>@Title</h1>
+															<hr />
+															@Html.Raw(Content)
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								}
+							}
+						}
+					}
+
+				</ul>
+			</div><!--/frame -->
+			@*<div class="scrollbar">
+		<div class="handle">
+			<div class="mousearea"><span></span></div>
+		</div>
+	</div><!--/scrollbar -->*@
+			<div class="controls center use-fastclick">
+				<button class="btn prevPage"><i class="fa fa-chevron-left"></i><i class="icon-chevron-left"></i></button><!--/back button-->
+				<button class="btn nextPage"><i class="fa fa-chevron-right"></i></button><!--/forward button-->
+			</div><!--/controls -->
+		</section>
+
+		<!--// ROW - NEWS -->
+		<section class="wrap">
+			<div class="wrap-header">
+				<span style="font-size: 1.3em; font-weight: 700;">News</span>
+				<span style="font-size: 0.75em; color: #808080;"><small>SCROLL TO VIEW ALL >></small></span>
+			</div><!--/.wrap-header -->
+			<div class="frame" id="row3" data-intro="row3" data-position="left">
+				<ul class="clearfix" id="news">
+
+					@{
+						if (xmlElement != null)
+						{
+							foreach (System.Xml.XmlNode itemNode in xmlNodeList)
+							{
+								if (itemNode.HasChildNodes)
+								{
+									Guid Id = Guid.NewGuid();
+
+									// 'item' Nodes
+									string Title = "";
+									string pubDate = "";
+									string Abstract = "";
+									string Content = "";
+									string imgThumbnail = "";
+									string Hyperlink = "";
+
+									// Images
+									List<string> images = new List<string>();
+
+									//-- Categories
+									List<string> categories = new List<string>();
+									
+									try
+									{
+										Title = itemNode["title"].InnerText;
+										
+										Hyperlink = itemNode["link"].InnerText;
+										
+										pubDate = itemNode["pubDate"].InnerText;
+										
+										Abstract = itemNode["description"].InnerText;
+										
+										Content = itemNode["content:encoded"].InnerText;
+										
+										imgThumbnail = itemNode["media:thumbnail"].Attributes["url"].Value;
+
+										if (itemNode["media:content"].Attributes["medium"].Value == "image")
+										{
+											images.Add(itemNode["media:content"].Attributes["url"].Value);
+										}
+									}
+									catch (Exception)
+									{
+										
+										//throw;
+									}
+
+									System.Xml.XmlNodeList catList = itemNode.SelectNodes("category");
+									foreach (System.Xml.XmlNode cat in catList)
+									{
+										categories.Add(cat.InnerText);
+									}
+
+									<li>
+										<div title="@xmlFeedTitle">
+											<a href="#@Id" class="target_blank">
+												<img alt="@Title" data-echo="@imgThumbnail">
+												<p>@Title</p>
+											</a>
+											<div id="@Id" style="display:none">
+												<div class="container-fluid">
+													<div class="row">
+														<div class="col-sm-6">
+															<h1>@Title</h1>
+															<hr />
+															<p><em>@Convert.ToDateTime(pubDate).ToLongDateString(), at @Convert.ToDateTime(pubDate).ToShortTimeString()</em></p>
+															@{
+																for (int i = 0; i < categories.Count; i++)
+																{
+																	//categories.ElementAt(i).ToString();
+																}
+															}
+														</div>
+														<div class="col-sm-6">
+
+															<!--social share-->
+															@*<p class="social-buttons">
+													<a href="https://twitter.com/intent/tweet?url=http://ucfmba.ucf.edu/&via=UCFBusiness&text=UCF Evening MBA" class="share-btn" id="ttButton" target="_blank">
+														<span class="share-btn-action share-btn-tweet">Follow</span>
+														<span class="share-btn-count">8,579</span>
+													</a>
+													<a href="https://www.facebook.com/sharer/sharer.php?u=http://ucfmba.ucf.edu" class="share-btn" id="fbButton" target="_blank">
+														<span class="share-btn-action share-btn-like">Like</span>
+														<span class="share-btn-count">4,325</span>
+													</a>
+													<a href="https://plus.google.com/share?url=http://ucfmba.ucf.edu" class="share-btn" id="gpButton" target="_blank">
+														<span class="share-btn-action share-btn-plus">+1</span>
+														<span class="share-btn-count">707</span>
+													</a>
+												</p>*@
+
+															@*<a href="https://twitter.com/share" class="twitter-share-button" data-url="@postLink" data-text="@postTitle" data-via="UCFBusiness" data-hashtags="ucfbusiness">Tweet</a>
+												<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>*@
+
+
+														</div>
+													</div><!--/.row-->
+													<div class="row">
+														<div class="col-lg-12">
+															@Html.Raw(Content)
+														</div>
+													</div>
+													<div class="row">
+														@if (images.FirstOrDefault() != null)
+														{
+															<img class="img-responsive" alt="ucf" data-echo="@images.FirstOrDefault().Substring(0, images.FirstOrDefault().LastIndexOf('?'))" width="100" style="width:100%;">
+														}
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								}
+							}
+						}
+					}
+
+				</ul>
+			</div><!--/frame -->
+			@*<div class="scrollbar">
+		<div class="handle">
+			<div class="mousearea"><span></span></div>
+		</div>
+	</div><!--/scrollbar -->*@
+			<div class="controls center use-fastclick">
+				<button class="btn prevPage"><i class="fa fa-chevron-left"></i><i class="icon-chevron-left"></i></button><!--/back button-->
+				<button class="btn nextPage"><i class="fa fa-chevron-right"></i></button><!--/forward button-->
+			</div><!--/controls -->
+		</section>
+	</div>
+</section>
